@@ -1,4 +1,7 @@
 import cv
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
 
 cv.NamedWindow("window", cv.CV_WINDOW_AUTOSIZE)
 camera_index = 0
@@ -9,6 +12,9 @@ def repeat():
     global camera_index
     frame = cv.QueryFrame(capture)
     cv.ShowImage("window", frame)
+    # print type(frame)
+    edges = cv2.Canny(frame,100,200)
+    plt.imshow(frame)
     c = cv.WaitKey(10)
     if(c=="n"): #in "n" key is pressed while the popup window is in focus
         camera_index += 1 #try the next camera index
