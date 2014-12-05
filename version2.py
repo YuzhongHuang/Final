@@ -74,8 +74,7 @@ class rectangle(object):
         self.speed = speed
         self.g = 0
         self.exist = True
-        self.flag = True
-        
+        self.flag = True        
 
 
     def draw(self):
@@ -91,6 +90,8 @@ class rectangle(object):
 
             if n>=self.length * self.height/4:
                 self.exist = False
+                global score
+                score += 1
             else:
                 for i in range(self.x,self.x+self.length):
                     for j in range(self.y,self.y+self.height):
@@ -140,7 +141,8 @@ class Controls(object):
 
 def main():
     """ Parts that runs the code"""
-
+global score
+score = 0
 cap = cv2.VideoCapture(0)
 global rect_count
 rect_count = 0
@@ -166,8 +168,8 @@ while(1):
     res = cv2.bitwise_and(frame,frame, mask= mask)
 
     flip = cv2.flip(frame,180)
-
-    cv2.putText(flip, "Score", (100, 100), cv2.FONT_HERSHEY_PLAIN, 5.0, (0,0,255),thickness=1, lineType=cv2.CV_AA)
+    global score
+    cv2.putText(flip, "Score %s" %(score), (5, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
 
     blur = cv2.GaussianBlur(res,(5,5),0)
 
