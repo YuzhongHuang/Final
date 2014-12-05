@@ -11,26 +11,26 @@ def generate():
 
     if type_local == 1:
         upperleft = (380,random.randint(440,538))
-        height = random.randint(50,60)
-        length = random.randint(50,60)
+        height = random.randint(20,60)
+        length = random.randint(20,60)
         direction = random.randint(60,80)
-        speed = 15
+        speed = 20
         color = random.choice(colorlist)
 
     if type_local == 2:
         upperleft = (380,random.randint(270,440))
-        height = random.randint(50,60)
-        length = random.randint(50,60)
+        height = random.randint(20,60)
+        length = random.randint(20,60)
         direction = random.randint(70,110)
-        speed = 20
+        speed = 23
         color = random.choice(colorlist)
 
     if type_local == 3:
         upperleft = (380,random.randint(100,270))
-        height = random.randint(50,60)
-        length = random.randint(50,60)
+        height = random.randint(20,60)
+        length = random.randint(20,60)
         direction = random.randint(100,120)
-        speed = 15
+        speed = 21
         color = random.choice(colorlist)
 
     list_local.append(upperleft)
@@ -100,7 +100,7 @@ class rectangle(object):
     def move(self):
         """move the rectangle"""
         if self.exist:
-            Gravity = 0.8
+            Gravity = 1.1
             self.g+=1
             xn = 0
             yn = 0
@@ -108,6 +108,8 @@ class rectangle(object):
             yn = yn + cos(self.direction*pi/180)*self.speed
             self.x -= int(xn + 0.5)
             self.y -= int(yn + 0.5)
+        if self.x > 420 or self.y < 10 or self.y > 580:
+            self.exist = False
 
     def regenerate(self):
         if (not self.exist) and self.flag:
@@ -132,41 +134,6 @@ class Controls(object):
     def __init__(self):
         self.list = []
 
-    def generate(self):
-        colorlist = ["green","red","yellow","blue","co","purple"]
-        type_local = random.randint(1,3)
-
-        if type_local == 1:
-            upperleft = (380,random.randint(440,638))
-            height = random.randint(50,60)
-            length = random.randint(50,60)
-            direction = random.randint(50,80)
-            speed = 27
-            color = random.choice(colorlist)
-
-        if type_local == 2:
-            upperleft = (380,random.randint(270,440))
-            height = random.randint(50,60)
-            length = random.randint(50,60)
-            direction = random.randint(70,110)
-            speed = 30
-            color = random.choice(colorlist)
-
-        if type_local == 3:
-            upperleft = (380,random.randint(70,270))
-            height = random.randint(50,60)
-            length = random.randint(50,60)
-            direction = random.randint(100,130)
-            speed = 27
-            color = random.choice(colorlist)
-
-        self.list.append(upperleft)
-        self.list.append(height)
-        self.list.append(length)
-        self.list.append(direction)
-        self.list.append(speed)
-        self.list.append(color)
-
 
 ##########################################################################
 
@@ -181,8 +148,6 @@ rect_count = 0
 R = rectangle((380,234),50,50,100,27,"green")
 
 while(1):
-
-    print rect_count
 
     # Take each frame
     _, frame = cap.read()
@@ -201,6 +166,8 @@ while(1):
     res = cv2.bitwise_and(frame,frame, mask= mask)
 
     flip = cv2.flip(frame,180)
+
+    cv2.putText(flip, "Score", (100, 100), cv2.FONT_HERSHEY_PLAIN, 5.0, (0,0,255),thickness=1, lineType=cv2.CV_AA)
 
     blur = cv2.GaussianBlur(res,(5,5),0)
 
