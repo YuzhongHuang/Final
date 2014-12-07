@@ -4,7 +4,7 @@ from math import*
 import random
 import time
 
-def main():
+def test_main():
     ##########################################################################
     def generate():
         colorlist = ["green","red","yellow","blue","co","purple"]
@@ -149,6 +149,7 @@ def main():
     rect_count = 0
 
     R = rectangle((380,234),50,50,100,27,"green")
+    
 
     while(1):
 
@@ -169,8 +170,13 @@ def main():
         res = cv2.bitwise_and(frame,frame, mask= mask)
 
         flip = cv2.flip(frame,180)
+        seconds = 60 - time.clock()
+
+        if seconds <= 0:
+            break
 
         cv2.putText(flip, "Score %s" %(score), (5, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
+        cv2.putText(flip, "Time %d" %(seconds), (495, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
 
         blur = cv2.GaussianBlur(res,(5,5),0)
 
@@ -251,4 +257,4 @@ def main():
 
 ##########################################################################      
 if __name__ == "__main__":
-    main()
+    test_main()

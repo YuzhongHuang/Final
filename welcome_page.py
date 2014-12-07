@@ -1,6 +1,6 @@
 import pygame as pyg
 from pygame.locals import *
-import version1
+import test
 
 """Button class sourced from Simon H. Larsen, http://lagusan.com/button-drawer-python-2-6/"""
 
@@ -46,8 +46,8 @@ def main():
     screen = pyg.display.set_mode((x, y))   # screen is what is displayed
     pyg.display.set_caption('Fruit Ninja')
 
-    background = pyg.image.load("bg.jpeg").convert()
-    screen.blit(background, [0,292])
+    # background = pyg.image.load("fruit_ninja.jpeg").convert()
+    # screen.blit(background, [0,292])
     
     # Create and draw background on Surface
     background_image = pyg.image.load("fruit_ninja.jpeg").convert()
@@ -93,7 +93,9 @@ def main():
                 if rules_button.pressed(mouse_pos):
                     print 'Rules'
                 if play_button.pressed(mouse_pos):
-                	print 'Play Game!'
+                    pyg.quit()
+                    # print 'Play Game'
+                    test.test_main()
                     
 if __name__ == '__main__':
     main()
