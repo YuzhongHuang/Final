@@ -3,6 +3,10 @@ import numpy as np
 from math import*
 import random
 import time
+import pygame##
+import os##
+import soundtest##
+
 
 def test_main():
     ##########################################################################
@@ -46,12 +50,13 @@ def test_main():
     ##########################################################################
 
 
-
     class Model(object):
         """Model of fruit"""
 
     class rectangle(object):
         """create a class of rectangle"""
+        pygame.mixer.init()##
+        pygame.mixer.music.load('sword.wav')##
 
         def __init__(self, upperleft, height, length, direction, speed, color):
             
@@ -94,6 +99,11 @@ def test_main():
                     self.exist = False
                     global score
                     score += 1
+                    pygame.mixer.music.play()##
+                    while pygame.mixer.music.get_busy() == True:##
+                        continue
+                    
+
                 else:
                     for i in range(self.x,self.x+self.length):
                         for j in range(self.y,self.y+self.height):
@@ -172,6 +182,7 @@ def test_main():
         flip = cv2.flip(frame,180)
         seconds = 60 - time.clock()
 
+
         if seconds <= 0:
             break
 
@@ -179,6 +190,7 @@ def test_main():
         cv2.putText(flip, "Time %d" %(seconds), (495, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
 
         blur = cv2.GaussianBlur(res,(5,5),0)
+
 
         if rect_count == 0:
             number = random.randint(1,4)
@@ -254,6 +266,7 @@ def test_main():
             break
 
     cv2.destroyAllWindows()
+pygame.quit()
 
 ##########################################################################      
 if __name__ == "__main__":
