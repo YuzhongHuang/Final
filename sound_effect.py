@@ -12,7 +12,7 @@ else:
     get_input = input
 
 
-pygame.init()
+
 pygame.mixer.init()
 
 throw = pygame.mixer.Sound('sword.wav') #load sound
@@ -31,5 +31,3 @@ while gameloop:
 		print("please press b or x you little butt")
 
 print "bye bye"
-pygame.quit()
-
