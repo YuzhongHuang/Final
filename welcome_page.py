@@ -38,7 +38,7 @@ class Button:
             return True
         else: return False
 
-def main():
+def welcome_main():
     x = 620
     y = 1000
         # Writes window title text
@@ -84,18 +84,21 @@ def main():
             if event.type == QUIT:
                 pyg.quit()
                 return
-            elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    pyg.quit()
-                    return
+            # elif event.type == KEYDOWN:
+            #     if event.key == K_ESCAPE:
+            #         pyg.quit()
+            #         return
             elif event.type == MOUSEBUTTONDOWN: # Only register click on mouse button down.
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
                     print 'Rules'
                 if play_button.pressed(mouse_pos):
-                    pyg.quit()
-                    # print 'Play Game'
+                    # pyg.quit()
                     test.test_main()
+                    pyg.quit()
+                    
+                    # print 'Play Game'
+
                     
 if __name__ == '__main__':
-    main()
+    welcome_main()
