@@ -6,29 +6,22 @@ import buttons
 import welcome_page
 
 def score_main(score):
+    # Set size of screen
     x = 620
     y = 700
-        # Writes window title text
+    
     pyg.init()
-    screen = pyg.display.set_mode((x, y))   # screen is what is displayed
+    screen = pyg.display.set_mode((x, y))
     pyg.display.set_caption('Fruit Ninja')
 
+    # Place background image
     background_img = pyg.image.load("fruit_ninja.jpeg").convert()
     screen.blit(background_img, [0,0])
     pyg.display.flip()
-    
-    # Create and draw background on Surface
-    # background = pyg.image.load("fruit_ninja.jpeg").convert()
-    
-    # background = pyg.Surface(screen.get_size())
-    # background = background.convert()
-    # background.fill((0, 0, 0))
-    # pyg.display.flip()
 
+    # Sets the text to display score
     font = pyg.font.Font(None, 80)
     text = font.render("Your final score is %s" %(score), 1, (255, 255, 255))
-    textpos = text.get_rect()
-    textpos.centerx = screen.get_rect().centerx
     
     if score>=100:
         screen.blit(text, (20, 350))
@@ -36,23 +29,20 @@ def score_main(score):
         screen.blit(text, (35, 350))
     else:
         screen.blit(text, (47, 350))
-    # screen.blit(background, [200, 0])
-    # Sets up exiting via the red X or the ESC key
 
+    # Makes two buttons: one to play game again and one to quit the game
     again_button = buttons.Button()
     again = again_button.create_button(screen,(205,133,63), 0, 480, 620, 80, 0, "Play More",(255,255,255))
-    again_pos = again.get_rect()
-    # again_pos.centerx = screen.get_rect().centerx        
+    again_pos = again.get_rect()       
     screen.blit(again,again_pos)
-    # pyg.display.flip()
 
     quit_button = buttons.Button()
     quitting = quit_button.create_button(screen,(205,133,63), 0, 600, 620, 80, 0, "Quit Game",(255,255,255))
     quit_pos = quitting.get_rect()
-    # quit_pos.centerx = screen.get_rect().centerx        
     screen.blit(quitting,quit_pos)
     pyg.display.flip()
     
+    # Sets all the transition conditions: changing screens, closing windows, etc.
     while True:
         pyg.init()
         for event in pyg.event.get():
@@ -72,7 +62,6 @@ def score_main(score):
                 elif quit_button.pressed(mouse_pos):
                     pyg.quit()
                     return
-        # screen.blit(background, (0, 0))
         pyg.display.flip()
                     
 if __name__ == '__main__':

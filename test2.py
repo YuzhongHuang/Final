@@ -8,6 +8,7 @@ import pygame as pyg
 
 def test_main():
     def generate():
+        # Create random shapes of rectangles with random colors
         colorlist = ["green","red","yellow","blue","co","purple"]
         list_local = []
         type_local = random.randint(1,3)
@@ -47,7 +48,7 @@ def test_main():
 
     class rectangle(object):
         """create a class of rectangle"""
-
+        # Initialize conditions
         def __init__(self, upperleft, height, length, direction, speed, color):
             
             if color == "green":
@@ -73,7 +74,7 @@ def test_main():
             self.exist = True
             self.flag = True        
 
-
+        # use numpy to display rectangles
         def draw(self):
             
             x_total = self.x + self.length
@@ -90,8 +91,7 @@ def test_main():
 
                 else:
                     # res[self.x:x_total, self.y:y_total,1].fill(self.color)
-                    coloring = flip[self.x:x_total, (639-y_total):(639-self.y)]
-                    coloring.fill(self.color)
+                    flip[self.x:x_total, (639-y_total):(639-self.y)].fill(self.color)
                     # print self.color
                     # for i in range(self.x,self.x+self.length):
                     #     for j in range(self.y,self.y+self.height):
@@ -100,6 +100,7 @@ def test_main():
 
         def move(self):
             """move the rectangle"""
+            # Our formula of making rectangles have p
             if self.exist:
                 Gravity = 1.1
                 self.g+=1
