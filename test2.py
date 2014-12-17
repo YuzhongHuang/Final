@@ -91,8 +91,14 @@ def test_main():
 
                 else:
                     # res[self.x:x_total, self.y:y_total,1].fill(self.color)
+                    # code using numpy to increase processing speed 
+                    # but it shows transluscent rectangles
                     flip[self.x:x_total, (639-y_total):(639-self.y)].fill(self.color)
                     # print self.color
+
+                    # Apart from line 100, the code within the next four lines shows opaque rectangles
+                    # but has slower processing time
+
                     # for i in range(self.x,self.x+self.length):
                     #     for j in range(self.y,self.y+self.height):
                     #         res[i,j] = self.color
