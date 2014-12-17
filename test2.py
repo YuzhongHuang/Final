@@ -4,9 +4,9 @@ from math import*
 import random
 import time
 import score_gui
+import pygame as pyg
 
 def test_main():
-
     def generate():
         colorlist = ["green","red","yellow","blue","co","purple"]
         list_local = []
@@ -81,20 +81,21 @@ def test_main():
             cur_rect = res[self.x:x_total, self.y:y_total,0]
 
             if self.exist:
-            	# print res[:,:,0].shape
-            	
-            	if np.where(50 < cur_rect)[0].size > cur_rect.size/2:
-            		self.exist = False
-            		global score
-            		score += 1
+                # print res[:,:,0].shape
+                
+                if np.where(50 < cur_rect)[0].size > cur_rect.size/2:
+                    self.exist = False
+                    global score
+                    score += 1
 
                 else:
-                	# res[self.x:x_total, self.y:y_total,1].fill(self.color)
-                	flip[self.x:x_total, (639-y_total):(639-self.y),2].fill(self.color)
-                	# print self.color
+                    # res[self.x:x_total, self.y:y_total,1].fill(self.color)
+                    coloring = flip[self.x:x_total, (639-y_total):(639-self.y)]
+                    coloring.fill(self.color)
+                    # print self.color
                     # for i in range(self.x,self.x+self.length):
                     #     for j in range(self.y,self.y+self.height):
-                            # res[i,j] = self.color
+                    #         res[i,j] = self.color
                             # flip[i,(639-j)] = self.color
 
         def move(self):
@@ -146,11 +147,10 @@ def test_main():
         # img = cv2.cv.CreateMat(639, 479,1)
 
         flip = cv2.flip(frame,180)
-        seconds = 3 - time.clock()
+        seconds = 60 - time.clock()
 
         if seconds <= 0:
-        	break
-
+            break
 
         cv2.putText(flip, "Score %s" %(score), (5, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
         cv2.putText(flip, "Time %d" %(seconds), (495, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
@@ -231,6 +231,7 @@ def test_main():
             break
 
     cv2.destroyAllWindows()
+    del cap
     score_gui.score_main(score)
 ##########################################################################      
 if __name__ == "__main__":

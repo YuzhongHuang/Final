@@ -2,6 +2,7 @@ import pygame as pyg
 from pygame.locals import *
 import test2
 from buttons import Button
+import rules
 
 def welcome_main():
     x = 620
@@ -11,9 +12,6 @@ def welcome_main():
     screen = pyg.display.set_mode((x, y))   # screen is what is displayed
     pyg.display.set_caption('Fruit Ninja')
 
-    # background = pyg.image.load("fruit_ninja.jpeg").convert()
-    # screen.blit(background, [0,292])
-    
     # Create and draw background on Surface
     background_image = pyg.image.load("fruit_ninja.jpeg").convert()
     screen.blit(background_image, [0, 0])
@@ -37,18 +35,19 @@ def welcome_main():
     
     # Sets up exiting via the red X or the ESC key
     while True:
+        pyg.init()
         for event in pyg.event.get():
             if event.type == QUIT:
                 pyg.quit()
-                return
-
+            
             elif event.type == MOUSEBUTTONDOWN: # Only register click on mouse button down.
                 mouse_pos = pyg.mouse.get_pos()
                 if rules_button.pressed(mouse_pos):
-                    print 'Rules'
+                    rules.rules_main()
                 if play_button.pressed(mouse_pos):
                     pyg.quit()
                     test2.test_main()
-                    
+                pyg.quit()
+
 if __name__ == '__main__':
     welcome_main()
