@@ -2,7 +2,7 @@
 import pygame as pyg
 import welcome_page
 import buttons
-import test2
+import test3
 
 from pygame.locals import *
 
@@ -76,7 +76,7 @@ def rules_main():
                     return
                 elif playing_button.pressed(mouse_pos):
                     pyg.quit()
-                    test2.test_main()
+                    test3.main()
                     return
 
 if __name__ == '__main__':

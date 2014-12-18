@@ -1,6 +1,6 @@
 import pygame as pyg
 from pygame.locals import *
-import test2
+import test3
 from buttons import Button
 import buttons
 import welcome_page
@@ -57,7 +57,7 @@ def score_main(score):
                 mouse_pos = pyg.mouse.get_pos()
                 if again_button.pressed(mouse_pos):
                     pyg.quit()
-                    test2.test_main()
+                    test3.main()
                     return
                 elif quit_button.pressed(mouse_pos):
                     pyg.quit()
