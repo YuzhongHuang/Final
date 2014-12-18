@@ -240,6 +240,7 @@ def main():
             break
 
     cv2.destroyAllWindows()
+    del cap
     score_gui.score_main(score)
 ##########################################################################      
 if __name__ == "__main__":
