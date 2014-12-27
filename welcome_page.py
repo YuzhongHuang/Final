@@ -1,6 +1,6 @@
 import pygame as pyg
 from pygame.locals import *
-import test3
+import test2
 from buttons import Button
 import rules
 
@@ -44,7 +44,7 @@ def welcome_main():
                     rules.rules_main()
                 if play_button.pressed(mouse_pos):
                     pyg.quit()
-                    test3.main()
+                    test2.test_main()
                 pyg.quit()
 
 if __name__ == '__main__':

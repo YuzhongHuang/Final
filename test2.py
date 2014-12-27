@@ -93,16 +93,16 @@ def test_main():
                     # res[self.x:x_total, self.y:y_total,1].fill(self.color)
                     # code using numpy to increase processing speed 
                     # but it shows transluscent rectangles
-                    flip[self.x:x_total, (639-y_total):(639-self.y)].fill(self.color)
+                    #flip[self.x:x_total, (639-y_total):(639-self.y),2].fill(self.color)
                     # print self.color
 
                     # Apart from line 100, the code within the next four lines shows opaque rectangles
                     # but has slower processing time
 
-                    # for i in range(self.x,self.x+self.length):
-                    #     for j in range(self.y,self.y+self.height):
-                    #         res[i,j] = self.color
-                            # flip[i,(639-j)] = self.color
+                        for i in range(self.x,self.x+self.length):
+                            for j in range(self.y,self.y+self.height):
+                                res[i,j] = self.color
+                                flip[i,(639-j)] = self.color
 
         def move(self):
             """move the rectangle"""
@@ -132,10 +132,14 @@ def test_main():
     cap = cv2.VideoCapture(0)
     global rect_count
     rect_count = 0
-
     # R = rectangle((380,234),50,50,100,27,"green")
-    while(1):
 
+    init_time = 60
+    if time.clock() >= (init_time)-1:
+        init_time += 60
+        print init_time
+
+    while(1):
         # Take each frame
         _, frame = cap.read()
 
@@ -154,7 +158,8 @@ def test_main():
         # img = cv2.cv.CreateMat(639, 479,1)
 
         flip = cv2.flip(frame,180)
-        seconds = 60 - time.clock()
+
+        seconds = init_time - time.clock()
 
         if seconds <= 0:
             break
@@ -236,7 +241,6 @@ def test_main():
         k = cv2.waitKey(5) & 0xFF
         if k == 27:
             break
-
     cv2.destroyAllWindows()
     del cap
     score_gui.score_main(score)

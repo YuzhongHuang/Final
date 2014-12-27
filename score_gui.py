@@ -1,9 +1,10 @@
 import pygame as pyg
 from pygame.locals import *
-import test3
+import test2
 from buttons import Button
 import buttons
 import welcome_page
+import sys
 
 def score_main(score):
     # Set size of screen
@@ -48,19 +49,22 @@ def score_main(score):
         for event in pyg.event.get():
             if event.type == QUIT:
                 pyg.quit()
+                sys.exit(0)
                 return
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pyg.quit()
+                    sys.exit(0)
                     return
             elif event.type == MOUSEBUTTONDOWN:
                 mouse_pos = pyg.mouse.get_pos()
                 if again_button.pressed(mouse_pos):
                     pyg.quit()
-                    test3.main()
+                    test2.test_main()
                     return
                 elif quit_button.pressed(mouse_pos):
                     pyg.quit()
+                    sys.exit(0)
                     return
         pyg.display.flip()
                     

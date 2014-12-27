@@ -3,19 +3,19 @@ import numpy as np
 from math import*
 import random
 import time
-import score_gui
+import pygame##
+import os##
+import soundtest##
 
-def main():
-    """Main Function"""
 
+def test_main():
+    ##########################################################################
     def generate():
-        """Function that will generate a random list of rectangle information"""
-        
         colorlist = ["green","red","yellow","blue","co","purple"]
         list_local = []
-        type_local = random.randint(1,3) #Create random types of rectangle
+        type_local = random.randint(1,3)
 
-        if type_local == 1: #Type one is rectangle that shoot from left side of the screen
+        if type_local == 1:
             upperleft = (380,random.randint(440,538))
             height = random.randint(20,60)
             length = random.randint(20,60)
@@ -23,7 +23,7 @@ def main():
             speed = 20
             color = random.choice(colorlist)
 
-        if type_local == 2: #Type one is rectangle that shoot from middle of the screen
+        if type_local == 2:
             upperleft = (380,random.randint(270,440))
             height = random.randint(20,60)
             length = random.randint(20,60)
@@ -31,7 +31,7 @@ def main():
             speed = 23
             color = random.choice(colorlist)
 
-        if type_local == 3: #Type one is rectangle that shoot from right side of the screen
+        if type_local == 3:
             upperleft = (380,random.randint(100,270))
             height = random.randint(20,60)
             length = random.randint(20,60)
@@ -47,9 +47,16 @@ def main():
         list_local.append(color)
 
         return list_local
+    ##########################################################################
+
+
+    class Model(object):
+        """Model of fruit"""
 
     class rectangle(object):
         """create a class of rectangle"""
+        pygame.mixer.init()##
+        pygame.mixer.music.load('sword.wav')##
 
         def __init__(self, upperleft, height, length, direction, speed, color):
             
@@ -78,30 +85,33 @@ def main():
 
 
         def draw(self):
-            """Method that used to check the existence of rectangles and draw them if they exist"""
-            x_total = self.x + self.length
-            y_total = self.y + self.height
-            cur_rect = res[self.x:x_total, self.y:y_total,0]
-
+            
+            n=0
             if self.exist:
-                # print res[:,:,0].shape
-                
-                if np.where(50 < cur_rect)[0].size > cur_rect.size/2:
+                for i in range(self.x,self.x+self.length):
+                    for j in range(self.y,self.y+self.height):
+                        if res[i,j][0]>50 and res[i,j][0]<255:
+                            if res[i,j][1]>0 and res[i,j][1]<255:
+                                if res[i,j][2]>0 and res[i,j][2]<255:
+                                    n+=1
+
+                if n>=self.length * self.height/4:
                     self.exist = False
                     global score
                     score += 1
+                    pygame.mixer.music.play()##
+                    while pygame.mixer.music.get_busy() == True:##
+                        continue
+                    
 
                 else:
-                    # res[self.x:x_total, self.y:y_total,1].fill(self.color)
-                    # flip[self.x:x_total, (639-y_total):(639-self.y),2].fill(self.color)
-                    # print self.color
                     for i in range(self.x,self.x+self.length):
                         for j in range(self.y,self.y+self.height):
                             res[i,j] = self.color
                             flip[i,(639-j)] = self.color
 
         def move(self):
-            """move the rectangle, math stuff"""
+            """move the rectangle"""
             if self.exist:
                 Gravity = 1.1
                 self.g+=1
@@ -115,11 +125,30 @@ def main():
                 self.exist = False
 
         def regenerate(self):
-            """method that check the number of rectangle exist on the screen"""
             if (not self.exist) and self.flag:
                 self.flag = False
                 global rect_count
                 rect_count -= 1
+                
+
+
+
+
+    ##########################################################################
+
+    class View(object):
+        """Windows of fruit"""
+
+
+    ##########################################################################
+
+    class Controls(object):
+        """Controls of fruit"""
+        def __init__(self):
+            self.list = []
+
+
+    ##########################################################################
 
 
         """ Parts that runs the code"""
@@ -129,9 +158,11 @@ def main():
     global rect_count
     rect_count = 0
 
-    # R = rectangle((380,234),50,50,100,27,"green")
+    R = rectangle((380,234),50,50,100,27,"green")
+    
+
     while(1):
-        #Opencv stuff
+
         # Take each frame
         _, frame = cap.read()
 
@@ -147,22 +178,20 @@ def main():
 
         # Bitwise-AND mask and original image
         res = cv2.bitwise_and(frame,frame, mask= mask)
-        # img = cv2.cv.CreateMat(639, 479,1)
 
         flip = cv2.flip(frame,180)
-        seconds = 10 - time.clock()
+        seconds = 60 - time.clock()
+
 
         if seconds <= 0:
             break
 
-        #Text the main screen with score and time
         cv2.putText(flip, "Score %s" %(score), (5, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
         cv2.putText(flip, "Time %d" %(seconds), (495, 30), cv2.FONT_HERSHEY_TRIPLEX, 1.0, (0,0,0),thickness=4, lineType=cv2.CV_AA)
 
         blur = cv2.GaussianBlur(res,(5,5),0)
 
 
-        # regenerate random number of rectangles when there is no reectangle on the screen using function generate
         if rect_count == 0:
             number = random.randint(1,4)
             if number == 1:
@@ -193,7 +222,6 @@ def main():
                 d = generate()
                 R4 = rectangle(d[0], d[1], d[2], d[3], d[4], d[5])
                 rect_count += 4
-        # display the regenerated rectangles
         else:
             if number == 1:
                 R1.draw()
@@ -233,15 +261,13 @@ def main():
         cv2.imshow('frame',flip)
         #cv2.imshow('mask',mask)
         #cv2.imshow('res',blur)
-
-        # quit the game by break the loop
         k = cv2.waitKey(5) & 0xFF
         if k == 27:
             break
 
     cv2.destroyAllWindows()
-    del cap
-    score_gui.score_main(score)
+pygame.quit()
+
 ##########################################################################      
 if __name__ == "__main__":
-    main()
+    test_main()
